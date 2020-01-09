@@ -1,175 +1,130 @@
-# #!/usr/bin/env ruby
-# require('sinatra')
-# require('sinatra/reloader')
-# require('./lib/album')
-# require ('./lib/artist')
-# require('./lib/song')
-# require('pry')
-# require('pg')
-# also_reload('lib/**/*.rb')
-#
-# DB = PG.connect({:dbname => "record_store"})
-#
-# # Get the detail for a specific song such as lyrics and songwriters.
-# get('/albums/:id/songs/:song_id') do
-#   @song = Song.find(params[:song_id].to_i())
-#   erb(:song)
-# end
-#
-# # Post a new song. After the song is added, Sinatra will route to the view for the artist the song belongs to.
-# post('/albums/:id/songs') do
-#   @album = Album.find(params[:id].to_i())
-#   song = Song.new(params[:song_name], @album.id, nil)
-#   song.save()
-#   erb(:album)
-# end
-#
-# # Edit a song and then route back to the album view.
-# patch('/albums/:id/songs/:song_id') do
-#   @album = Album.find(params[:id].to_i())
-#   song = Song.find(params[:song_id].to_i())
-#   song.update(params[:name], @album.id)
-#   erb(:album)
-# end
-#
-# # Delete a song and then route back to the album view.
-# delete('/albums/:id/songs/:song_id') do
-#   song = Song.find(params[:song_id].to_i())
-#   song.delete
-#   @album = Album.find(params[:id].to_i())
-#   erb(:album)
-# end
-#
-# # This will be our home page. '/' is always the root route in a Sinatra application.
-# # get('/') do
-# #   @albums = Album.all
-# #   erb(:albums)
-# # end
-#
-# get('/') do
-#   erb(:index)
-# end
-#
-# # This route will show a list of all albums.
-# get('/albums') do
-#   if params["search"]
-#     @albums = Album.search_name(params[:search])
-#   elsif params["alphabetize"]
-#     @albums = Album.alphabetize
-#   elsif params["sort_cost"]
-#     @albums = Album.sort_cost
-#   elsif params["sort_year"]
-#     @albums = Album.sort_year
-#   elsif params["random"]
-#     @albums = Album.random
-#   else
-#     @albums = Album.all
-#   end
-#   erb(:albums)
-# end
-#
-# # This will take us to a page with a form for adding a new album.
-# get('/albums/new') do
-#   erb(:new_album)
-# end
-#
-# # This route will add an album to our list of albums. We can't access this by typing in the URL. In a future lesson, we will use a form that specifies a POST action to reach this route.
-# post('/albums') do
-#   name = params[:album_name]
-#   year = params[:album_year]
-#   genre = params[:album_genre]
-#   artist = params[:album_artist]
-#   cost = params[:album_cost]
-#   album = Album.new({:name => name, :id => nil, :year => year, :genre => genre, :artist => artist, :status => true, :cost => cost})
-#   album.save()
-#   @albums = Album.all() # Adding this line will fix the error.
-#   erb(:albums)
-# end
-#
-# # This route will show a specific album based on its ID. The value of ID here is #{params[:id]}.
-# get('/albums/:id') do
-#   @album = Album.find(params[:id].to_i())
-#   if @album == nil
-#     erb(:go_back)
-#   else
-#     erb(:album)
-#   end
-# end
-#
-# # his will take us to a page with a form for updating an album with an ID of #{params[:id]}.
-# get('/albums/:id/edit') do
-#   @album = Album.find(params[:id].to_i())
-#   erb(:edit_album)
-# end
-#
-# # This route will update an album. We can't reach it with a URL. In a future lesson, we will use a form that specifies a PATCH action to reach this route.
-# patch('/albums/:id') do
-#   if params[:buy]
-#     @album = Album.find(params[:id].to_i())
-#     @album.sold
-#   else
-#     @album = Album.find(params[:id].to_i())
-#     @album.update(params[:name], params[:year], params[:genre], params[:artist], params[:cost])
-#   end
-#   @albums = Album.all
-#   erb(:albums)
-# end
-#
-# # This route will delete an album. We can't reach it with a URL. In a future lesson, we will use a delete button that specifies a DELETE action to reach this route.
-# delete('/albums/:id') do
-#   @album = Album.find(params[:id].to_i())
-#   @album.delete()
-#   @albums = Album.all
-#   erb(:albums)
-# end
-#
-# get('/artists') do
-#   if params["search"]
-#     @artists = Artist.search_name(params[:search])
-#   else
-#     @artists = Artist.all
-#   end
-#   erb(:artists)
-# end
-#
-# get('/artists/new') do
-#   erb(:new_artist)
-# end
-#
-# get('/artists/:id') do
-#   @artist= Artist.find(params[:id].to_i())
-#   if @artist== nil
-#     erb(:go_back)
-#   else
-#     erb(:artist)
-#   end
-# end
-#
-# post '/artists/:id' do
-#     Artist.find(params[:id].to_i).add_album(params[:album_name])
-#     erb(:artist)
-#     # redirect to "/artists/#{params[:id]}"
-# end
-#
-#
-# post('/artists') do
-#   name = params[:artist_name]
-#   artist = Artist.new({:name => name, :id => nil})
-#   artist.save
-#   @artists = Artist.all
-#   erb(:artists)
-# end
-#
-# patch('/artists/:id') do
-#   @artist = Artist.find(params[:id].to_i())
-#   @artist.update(params[:name])
-#   @artists = Album.all
-#   erb(:artists)
-# end
-#
-# delete('/artists/:id') do
-#   @artist = Artist.find(params[:id].to_i())
-#   @artist.delete()
-#   @artists = Artist.all
-#   erb(:artists)
-# end
+#!/usr/bin/env ruby
+require('sinatra')
+require('sinatra/reloader')
+require('./lib/train')
+require ('./lib/city')
+require('pry')
+require('pg')
+also_reload('lib/**/*.rb')
+
+DB = PG.connect({:dbname => "train_system"})
+
+get('/') do
+  erb(:trains)
+end
+
+# This route will show a list of all trains.
+get('/trains') do
+  if params["search"]
+    @trains = Train.search_name(params[:search])
+  # elsif params["alphabetize"]
+  #   @trains = Train.alphabetize
+  # elsif params["random"]
+  #   @trains = Train.random
+  else
+    @trains = Train.all
+  end
+  erb(:trains)
+end
+
+# This will take us to a page with a form for adding a new train.
+get('/trains/new') do
+  erb(:new_train)
+end
+
+# This route will add an train to our list of trains. We can't access this by typing in the URL. In a future lesson, we will use a form that specifies a POST action to reach this route.
+post('/trains') do
+  name = params[:train_name]
+  train = Train.new({:name => name, :id => nil})
+  train.save()
+  @trains = Train.all() # Adding this line will fix the error.
+  erb(:trains)
+end
+
+# This route will show a specific train based on its ID. The value of ID here is #{params[:id]}.
+get('/trains/:id') do
+  @train = Train.find(params[:id].to_i())
+  if @train == nil
+    erb(:go_back)
+  else
+    erb(:train)
+  end
+end
+
+# his will take us to a page with a form for updating an train with an ID of #{params[:id]}.
+get('/trains/:id/edit') do
+  @train = Train.find(params[:id].to_i())
+  erb(:edit_train)
+end
+
+# This route will update an train. We can't reach it with a URL. In a future lesson, we will use a form that specifies a PATCH action to reach this route.
+patch('/trains/:id') do
+  if params[:buy]
+    @train = Train.find(params[:id].to_i())
+    @train.sold
+  else
+    @train = Train.find(params[:id].to_i())
+    @train.update(params[:name])
+  end
+  @trains = Train.all
+  erb(:trains)
+end
+
+# This route will delete an train. We can't reach it with a URL. In a future lesson, we will use a delete button that specifies a DELETE action to reach this route.
+delete('/trains/:id') do
+  @train = Train.find(params[:id].to_i())
+  @train.delete()
+  @trains = Train.all
+  erb(:trains)
+end
+
+get('/cities') do
+  if params["search"]
+    @cities = City.search_name(params[:search])
+  else
+    @cities = City.all
+  end
+  erb(:cities)
+end
+
+get('/cities/new') do
+  erb(:new_city)
+end
+
+get('/cities/:id') do
+  @city= City.find(params[:id].to_i())
+  if @city== nil
+    erb(:go_back)
+  else
+    erb(:city)
+  end
+end
+
+post '/cities/:id' do
+    City.find(params[:id].to_i).add_train(params[:train_name])
+    erb(:city)
+    # redirect to "/cities/#{params[:id]}"
+end
+
+
+post('/cities') do
+  name = params[:city_name]
+  city = City.new({:name => name, :id => nil})
+  city.save
+  @cities = City.all
+  erb(:cities)
+end
+
+patch('/cities/:id') do
+  @city = City.find(params[:id].to_i())
+  @city.update(params[:name])
+  @cities = Train.all
+  erb(:cities)
+end
+
+delete('/cities/:id') do
+  @city = City.find(params[:id].to_i())
+  @city.delete()
+  @cities = City.all
+  erb(:cities)
+end

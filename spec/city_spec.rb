@@ -60,9 +60,7 @@ describe '#City' do
       city.save()
       train = Train.new({:name => "Hogwarts Express", :id => nil})
       train.save()
-      # binding.pry
       city.update({:train_name => "Hogwarts Express"})
-      # binding.pry
       expect(city.trains).to(eq([train]))
     end
   end

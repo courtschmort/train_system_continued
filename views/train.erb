@@ -1,38 +1,33 @@
-<h4>Album Name: <%= @album.name %></h4>
-<h5>artist: <%= @album.artist %></h5>
-<p>genre: <%= @album.genre %></p>
-<p>year: <%= @album.year %></p>
-<p>status: <%= @album.status == "t" ? "Available" : "Sold" %></p>
-<p>cost: <%= @album.cost %></p>
+<h4>Train Name: <%= @train.name %></h4>
 
-<h3>Album Songs</h3>
+<h3>Train Citys</h3>
 
-  <% if @album.songs %>
+  <% if @train.cities %>
     <ul>
-      <% @album.songs.each do |song| %>
-        <li><a href="/albums/<%= @album.id %>/songs/<%= song.id %>"><%= song.name %></a></li>
+      <% @train.cities.each do |city| %>
+        <li><a href="/trains/<%= @train.id %>/cities/<%= city.id %>"><%= city.name %></a></li>
       <% end %>
     </ul>
   <% else %>
-    <p>There are no songs listed for this album yet.</p>
+    <p>There are no cities listed for this train yet.</p>
   <% end %>
 
-<h4>Add a song:</h4>
+<h4>Add a city:</h4>
 
-<form action="/albums/<%= @album.id %>/songs" method="post">
+<form action="/trains/<%= @train.id %>/cities" method="post">
   <div class="form-group">
-    <label for="song_name">Song name</label>
-    <input id="song_name" name="song_name" class="form-control" type="text">
+    <label for="city_name">City name</label>
+    <input id="city_name" name="city_name" class="form-control" type="text">
   </div>
-  <button type="submit" class="btn btn-success">Add song</button>
+  <button type="submit" class="btn btn-success">Add city</button>
 </form>
 
-<!-- Buy Album -->
-<form action="/albums/<%= @album.id() %>" method="post">
+<!-- Buy Train -->
+<form action="/trains/<%= @train.id() %>" method="post">
   <input name="_method" type="hidden" value="patch">
   <input name="buy" type="hidden">
   <button type="submit" class="btn btn-success">Buy</button>
 </form>
 
-<p><a href="/albums/<%= @album.id %>/edit">Edit album</a></p>
-<a href="/albums">Return to album list</a>
+<p><a href="/trains/<%= @train.id %>/edit">Edit train</a></p>
+<a href="/trains">Return to train list</a>

@@ -1,29 +1,29 @@
-<h3><center>Artist Search</center></h3>
-<form action="/artists">
+<h3><center>City Search</center></h3>
+<form action="/cities">
   <div class="form-group">
     <input id="search" name="search" class="form-control bg-success" type="text">
   </div>
   <button type="submit" class="btn btn-primary">Go!</button>
 </form>
 
-<h3><center>Artists</center></h3>
-<% if @artists.any? %>
+<h3><center>Cities</center></h3>
+<% if @cities.any? %>
 <ul>
-  <% @artists.each do |artist| %>
-  <li><a href="/artists/<%= artist.id %>"><strong><%= artist.name %>:</strong></a></li>
+  <% @cities.each do |city| %>
+  <li><a href="/cities/<%= city.id %>"><strong><%= city.name %>:</strong></a></li>
   <% end %>
 </ul>
 <% else %>
-<p>There are currently no artists to display.</p>
+<p>There are currently no cities to display.</p>
 <% end %>
 
-<a href="/artists/new">Add a new artist</a><br>
+<a href="/cities/new">Add a new city</a><br>
 
 <a href="/">Return to main page</a>
 
-<!-- <form action="/artists" method="get">
+<!-- <form action="/cities" method="get">
   <button type="submit" name="alphabetize" class="btn btn-warning">Alphabetize!</button>
   <button type="submit" name="sort_year" class="btn btn-warning">Sort by year!</button>
   <button type="submit" name="sort_cost" class="btn btn-warning">Sort by cost!</button>
-  <button type="submit" name="random" class="btn btn-warning">Get a random artist</button>
+  <button type="submit" name="random" class="btn btn-warning">Get a random city</button>
 </form> -->
