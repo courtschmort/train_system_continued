@@ -1,27 +1,30 @@
-<h3>City Name: <%= @city.name %></h3>
+<h3><center>City: <%= @city.name %></center></h3>
 
-<h4>City Trains</h4>
+<h3><%= @city.name %> Trains</h3>
 
-  <% if @city.trains %>
-    <ul>
-      <% @city.trains.each do |train| %>
-        <li><a href="/cities/<%= @city.id %>/trains/<%= train.id %>"><%= train.name %></a></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>There are no trains listed for this city yet.</p>
+<% if @city.trains.any? %>
+<ul>
+  <% @city.trains.each do |train| %>
+  <li><a href="/cities/<%= @city.id %>"><strong><%= @city.name %>, <%= train.name %></strong></a></li>
   <% end %>
+</ul>
+<% else %>
+<p>There are currently no trains to display.</p>
+<% end %>
 
-<h4>Add an train:</h4>
+<br>
+
+<h4>Add a train:</h4>
 
 <form action="/cities/<%= @city.id %>" method="post">
-    <label> Train Name
-        <input name='train_name' type="text">
-    </label>
-    <button type="submit">Add Trains</button>
+  <div class="form-group">
+    <input name="_method" type="hidden" value="patch">
+    <input name="train_name" class="form-control" type="text">
+  </div>
+  <button type="submit" class="btn btn-success">Add train</button>
 </form>
 
-  <button type="submit" class="btn btn-primary">Delete city</button>
-</form>
-<p><a href="/cities/<%= @city.id %>/edit">Edit city</a></p>
-<a href="/cities">Return to city list</a>
+<br>
+
+<p><a href="/cities/<%= @city.id %>/edit">Edit <%= @city.name %></a></p>
+<p><a href="/cities">Return to city list</a></p>

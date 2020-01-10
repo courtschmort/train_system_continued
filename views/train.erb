@@ -1,33 +1,30 @@
-<h4>Train Name: <%= @train.name %></h4>
+<h3><center>Train: <%= @train.name %></center></h3>
 
-<h3>Train Citys</h3>
+<h3><%= @train.name %> Cities</h3>
 
-  <% if @train.cities %>
-    <ul>
-      <% @train.cities.each do |city| %>
-        <li><a href="/trains/<%= @train.id %>/cities/<%= city.id %>"><%= city.name %></a></li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p>There are no cities listed for this train yet.</p>
+<% if @train.cities.any? %>
+<ul>
+  <% @train.cities.each do |city| %>
+  <li><a href="/trains/<%= @train.id %>"><strong><%= city.name %>, <%= @train.name %></strong></a></li>
   <% end %>
+</ul>
+<% else %>
+<p>There are currently no cities to display.</p>
+<% end %>
+
+<br>
 
 <h4>Add a city:</h4>
 
-<form action="/trains/<%= @train.id %>/cities" method="post">
+<form action="/trains/<%= @train.id %>" method="post">
   <div class="form-group">
-    <label for="city_name">City name</label>
-    <input id="city_name" name="city_name" class="form-control" type="text">
+    <input name="_method" type="hidden" value="patch">
+    <input name="city_name" class="form-control" type="text">
   </div>
   <button type="submit" class="btn btn-success">Add city</button>
 </form>
 
-<!-- Buy Train -->
-<form action="/trains/<%= @train.id() %>" method="post">
-  <input name="_method" type="hidden" value="patch">
-  <input name="buy" type="hidden">
-  <button type="submit" class="btn btn-success">Buy</button>
-</form>
+<br>
 
-<p><a href="/trains/<%= @train.id %>/edit">Edit train</a></p>
-<a href="/trains">Return to train list</a>
+<p><a href="/trains/<%= @train.id %>/edit">Edit <%= @train.name %></a></p>
+<p><a href="/trains">Return to train list</a></p>

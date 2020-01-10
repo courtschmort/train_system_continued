@@ -1,26 +1,14 @@
-<h3><center>Train Search</center></h3>
-<form action="/trains">
-  <div class="form-group">
-    <input id="search" name="search" class="form-control bg-success" type="text">
-  </div>
-  <button type="submit" class="btn btn-primary">Go!</button>
-</form>
+<h3>Trains</h3>
 
-<h3><center>Available Trains</center></h3>
 <% if @trains.any? %>
 <ul>
   <% @trains.each do |train| %>
-  <li><a href="/trains/<%= train.id %>"><strong><%= train.name %>:</strong></a></li>
+  <li><a href="/trains/<%= train.id %>"><strong><%= train.name %></strong></a></li>
   <% end %>
 </ul>
 <% else %>
 <p>There are currently no records to display.</p>
 <% end %>
 
-<!-- <form action="/trains" method="get">
-  <button type="submit" name="alphabetize" class="btn btn-warning">Alphabetize!</button>
-  <button type="submit" name="random" class="btn btn-warning">Get a random train</button>
-</form> -->
-
-<a href="/trains/new">Add a new train</a><br>
-<a href="/">Return to main page</a>
+<p><a href="/trains/new">Add a new train</a></p>
+<p><a href="/">Return to main page</a></p>
